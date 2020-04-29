@@ -96,6 +96,11 @@ CFLAGS += -D IIO_EXAMPLE
 CFLAGS += -D _USE_STD_INT_TYPES
 endif
 
+ifeq (y,$(strip $(MBEDTLS)))
+CFLAGS += -D MBEDTLS_CONFIG_FILE="""noos_mbedtls_config.h"""
+INCLUDE += $(NO-OS)/libraries/mbedtls/include
+endif
+
 #------------------------------------------------------------------------------
 #                            COMMON LINKER FLAGS                               
 #------------------------------------------------------------------------------
@@ -378,6 +383,11 @@ libs:
 ifeq (y,$(strip $(TINYIIOD)))
 	@$(MAKE) -C $(LIBRARIES)/libtinyiiod re
 LIBS += -L $(LIBRARIES)/libtinyiiod/build -ltinyiiod
+endif
+ifeq (y,$(strip $(MBEDTLS)))
+	@$(MAKE) -C $(LIBRARIES)/mbedtls clean
+	@$(MAKE) -C $(LIBRARIES)/mbedtls lib
+LIBS += -L $(LIBRARIES)/mbedtls/build -lmbedcrypto -lmbedx509 -lmbedtls
 endif
 
 .SILENT:pre-build
