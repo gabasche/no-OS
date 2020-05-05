@@ -53,4 +53,8 @@
 
 #define IS_ERR_VALUE(x)	((x) < 0)
 
+//Where to put this and at_parser errors?
+//OR EWOULDREAD
+#define	EAGAIN		-35
+
 #endif // ERROR_H_
